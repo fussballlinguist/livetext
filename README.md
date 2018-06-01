@@ -15,9 +15,11 @@ All script are run from the command line: perl script.pl
 Both weltfussball_livetext.pl and kicker_livetext will download all live text commentaries from one season or tournament.
 The output format is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data for AutoChirp (https://autochirp.spinfo.uni-koeln.de/home), a web application for automatized and prescheduled tweets.
 
+If you want to use the data with corpus linguistic applications like Corpus Workbench or AntConc, a xsl-transformation that pushes the metadata to xml-attributes, will be necessary. You can use livetext.xsl for this purpose. 
+
 ## Purpose
 
-To see some examples how the data can be used, visit http://www.fussballlinguistik.de, https://twitter.com/randomlivetext or https://twitter.com/retrolivetext
+To see some examples how the data can be used, please visit http://www.fussballlinguistik.de, https://twitter.com/randomlivetext or https://twitter.com/retrolivetext
 
 ## Authors
 
