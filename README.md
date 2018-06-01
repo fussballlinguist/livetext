@@ -13,7 +13,7 @@ All script are run from the command line: perl script.pl
 ### Scripts
 
 Both weltfussball_livetext.pl and kicker_livetext will download all live text commentaries from one season or tournament.
-The output format is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data AutoChirp, a web application for automatized and prescheduled tweets.
+The output format is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data for AutoChirp (https://autochirp.spinfo.uni-koeln.de/home), a web application for automatized and prescheduled tweets.
 
 ## Purpose
 
