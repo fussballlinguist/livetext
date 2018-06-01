@@ -101,7 +101,7 @@ foreach my $url_game (@urls) {
 		} else {
 			$time = "<time/>";
 		}
-		print OUT "\t$time\n\t<ticker>$ticker</ticker>\n" if defined ($ticker);
+		print OUT "\t$time\n\t<p>$ticker</p>\n" if defined ($ticker);
 		undef $time;
 		undef $ticker;
 	}
