@@ -8,7 +8,7 @@ All scripts are stand alone scripts. Just define some variables as described in 
 
 ## Use
 
-All script are run from the command line: perl script.pl
+All scripts are run from the command line: perl script.pl
 
 ### Scripts
 
@@ -23,7 +23,7 @@ To see some examples how the data can be used, please visit http://www.fussballl
 
 ## Authors
 
-* Simon Meier-Vieracker
+Simon Meier-Vieracker, Berlin (http://www.fussballlinguistik.de)
 
 ## License
 
