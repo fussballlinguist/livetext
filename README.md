@@ -10,13 +10,18 @@ All scripts are stand alone scripts. Just define some variables as described in 
 
 All script are run from the command line: perl script.pl
 
+### Scripts
+
+Both weltfussball_livetext.pl and kicker_livetext will download all live text commentaries from one season or tournament.
+The output format is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data AutoChirp, a web application for automatized and prescheduled tweets.
+
 ## Purpose
 
 To see some examples how the data can be used, visit http://www.fussballlinguistik.de, https://twitter.com/randomlivetext or https://twitter.com/retrolivetext
 
 ## Authors
 
-* **Simon Meier-Vieracker**
+* Simon Meier-Vieracker
 
 ## License
 
