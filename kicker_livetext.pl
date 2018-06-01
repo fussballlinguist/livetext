@@ -85,7 +85,6 @@ foreach my $url_game (@urls) {
 	print OUT "<text>
 	<url>$url_game</url>
 	<title>$title</title>
-	<url>$url_game</url>
 	<team1>$team1</team1>
 	<team2>$team2</team2>
 	<date>$date</date>
