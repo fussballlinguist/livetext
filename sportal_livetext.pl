@@ -27,6 +27,8 @@ my $filename;
 
 my $start_url = "http://www.sportal.de/fussball/bundesliga/spielplan/spielplan-chronologisch-saison-2017-2018/";
 # --> Define the start page (to find under Liga -> Spielplan) 
+# Be sure to set the final slash, otherwise the extraction of
+# the filename won't work!
 
 if ($start_url =~ /spielplan\/(.+?)\//) {
 	$filename = $1;
