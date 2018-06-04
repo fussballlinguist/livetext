@@ -106,7 +106,7 @@ foreach my $url_game (@urls) {
 		undef $ticker;
 	}
 	print OUT "</text>\n";
-#	sleep rand(2);
+	sleep rand(3);
 }
 print OUT "</corpus>\n";
 close OUT
