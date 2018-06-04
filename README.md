@@ -17,7 +17,7 @@ On Unix systems, the xsl stylesheets can be run from the command line with xsltp
 ## Scripts
 
 **weltfussball_livetext.pl**, **kicker_livetext** and **sportal.pl** will download all live text commentaries from one season or tournament.
-The output format (one file per season) is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data for AutoChirp (https://autochirp.spinfo.uni-koeln.de/home), a web application for automatized and prescheduled tweets.
+The output format (one file per season) is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data for [AutoChirp](https://autochirp.spinfo.uni-koeln.de/home), a web application for automatized and prescheduled tweets.
 
 **kicker_matchreport** will download all match reports of one season (tested with Bundesliga, other competetions might require some minor changes in the regexes).
 
