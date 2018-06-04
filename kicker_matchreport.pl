@@ -125,6 +125,7 @@ foreach my $url_game (@urls) {
 	print OUT $p;
 	print OUT "</text>\n";
 	undef $p;
+	sleep rand 3;
 }
 print OUT "</corpus>\n";
 close OUT
