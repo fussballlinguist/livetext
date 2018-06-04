@@ -8,8 +8,11 @@ All scripts are stand alone scripts. Just define some variables as described in 
 
 ## Use
 
-All scripts are run from the command line: perl script.pl
-On Unix systems, the xsl stylesheets can be run from the command line with xsltproc: xsltproc stylesheet.xsl input.xml > output.xml
+All scripts are run from the command line: 
+```perl script.pl```
+
+On Unix systems, the xsl stylesheets can be run from the command line with xsltproc:
+```xsltproc stylesheet.xsl input.xml > output.xml```
 
 ## Scripts
 
