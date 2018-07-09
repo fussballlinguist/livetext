@@ -7,7 +7,7 @@ use utf8;
 use open ':std', ':encoding(utf8)';
 
 ##########################################################################
-# A script to crawl live texts from sportal.de as nice and handy xml-files
+# A script to scrape live texts from sportal.de as nice and handy xml-files
 ##########################################################################
 
 my $url_report;
