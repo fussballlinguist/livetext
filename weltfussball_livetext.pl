@@ -1,8 +1,8 @@
 #! /usr/bin/perl -w
 
-###############################################################################
-# A script to crawl live texts from weltfussball.de as nice and handy xml-files
-###############################################################################
+################################################################################
+# A script to scrape live texts from weltfussball.de as nice and handy xml-files
+################################################################################
 
 use strict;
 use warnings;
