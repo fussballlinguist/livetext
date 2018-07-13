@@ -35,11 +35,11 @@ my $path = "/define/path/$filename.xml";
 ############################
 
 unlink($path);
-my $start_html = qx(curl -s '$start_url');
+my $start_html = qx(curl -s -L '$start_url');
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/(\/spielbericht\/.+?)"/) {
-		$url = "http://www.weltfussball.de" . $1 . "liveticker/";
+		$url = "https://www.weltfussball.de" . $1 . "liveticker/";
 		push @urls, $url;
 	}
 }
@@ -48,7 +48,7 @@ my $counter = 0;
 open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
 foreach my $url_game (@urls) {
-	my $html = qx(curl -s '$url_game');
+	my $html = qx(curl -s -L '$url_game');
 	$counter++;
 	print "Lade Nr. $counter von $length\n";
 	my @lines = split /\n/, $html;
