@@ -7,7 +7,7 @@ use utf8;
 use open ':std', ':encoding(utf8)';
 
 ############################################################################
-# A script to crawl match reports from kicker.de as nice and handy xml-files
+# A script to crawl match reports from sportsmole.co.uk as nice and handy xml-files
 ############################################################################
 
 my $url;
@@ -30,8 +30,8 @@ if ($start_url =~ /premier-league\/(.+?)\//) {
 	$filename = $1;
 }
 
-my $path = "/Users/Simon/Korpora/Fussball/sportsmole/Matchreports/$filename.xml";
-# --> Define path and outpute filename
+my $path = "/path/$filename.xml";
+# --> Define path
 
 ############################
 # no changes below this line
@@ -140,9 +140,3 @@ foreach my $url_game (@urls) {
 }
 print OUT "</corpus>\n";
 close OUT;
-
-open FILE, "< /Users/Simon/Korpora/Fussball/sportsmole/Matchreports/$filename.xml" or die $!;
-while (<FILE>) {
-	$_ =~ s/&/&amp;/g;
-}
-close FILE;
