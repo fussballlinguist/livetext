@@ -66,8 +66,7 @@ foreach my $url_game (@urls) {
 			$title = $1;
 		}
 		if ($line =~ /property="og:description" content="(.+?)">/) {
-			$teaser = $1;
-			decode_entities($teaser);
+			$teaser = decode_entities($1);
 			$teaser =~ s/&/&amp;/g;
 		}		
 		if ($line =~ /class="game_header_score">(.+?)</) {
