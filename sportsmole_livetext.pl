@@ -5,6 +5,7 @@ use warnings;
 use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
+use List::MoreUtils qw(uniq);
 
 #################################################################################
 # A script to scrape live texts from sportsmole.co.uk as nice and handy xml-files
@@ -54,6 +55,7 @@ foreach my $line (@lines) {
 		print "Fetching URL no. $counter: $url_game\n" if defined $url_game;
 	}
 }
+@urls = uniq(@urls);
 my $counter_game = 0;
 my $length = scalar @urls;
 print " Done! $length URls fetched.\n";
