@@ -6,9 +6,9 @@ use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
 
-############################################################################
-# A script to crawl match reports from kicker.de as nice and handy xml-files
-############################################################################
+#################################################################################
+# A script to scrape live texts from sportsmole.co.uk as nice and handy xml-files
+#################################################################################
 
 my $url_overview;
 my $url_game;
@@ -30,7 +30,7 @@ if ($start_url =~ /premier-league\/(.+?)\//) {
 	$filename = $1;
 }
 
-my $path = "/Users/Simon/Korpora/Fussball/sportsmole/Liveticker/$filename.xml";
+my $path = "/path/$filename.xml";
 # --> Define path and outpute filename
 
 ############################
@@ -100,7 +100,7 @@ foreach my $url_game (@urls) {
 	<result>$result</result>\n";
 	my @paragraphs = split /class="livecomm"/, $html;
 	foreach my $paragraph (@paragraphs) {
-		if ($paragraph =~ m/class="period">(.+?)<\/a>/g) {
+		if ($paragraph =~ m/class="period">(.+?)<\/a>/) {
 			$time = $1;
 		}
 		if ($paragraph =~ m/class="post">([\w\W]+?)<\/span>/) {
