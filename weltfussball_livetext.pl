@@ -109,3 +109,4 @@ foreach my $url_game (@urls) {
 }
 print OUT "</corpus>\n";
 close OUT;
+print "\nDone!\n";
