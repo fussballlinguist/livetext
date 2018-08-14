@@ -5,6 +5,7 @@ use warnings;
 use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
+$| = 1;
 
 #############################################################################
 # A script to scrape match reports from kicker.de as nice and handy xml-files
@@ -53,7 +54,7 @@ foreach my $url_game (@urls) {
 	my $html = qx(curl -s '$url_game');	
 
 	$counter++;
-	print "Lade Nr. $counter von $length\n";
+	print "\rLade Nr. $counter von $length";
 	my @lines = split /\n/, $html;
 	foreach my $line (@lines) {
 		if ($line =~ /<title>(.+?)<\/title>/) {
@@ -128,4 +129,4 @@ foreach my $url_game (@urls) {
 	sleep rand 3;
 }
 print OUT "</corpus>\n";
-close OUT
+close OUT;
