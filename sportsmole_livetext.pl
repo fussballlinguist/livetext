@@ -6,6 +6,7 @@ use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
 use List::MoreUtils qw(uniq);
+$| = 1;
 
 #################################################################################
 # A script to scrape live texts from sportsmole.co.uk as nice and handy xml-files
@@ -52,7 +53,7 @@ foreach my $line (@lines) {
 		}
 		push @urls, $url_game if defined $url_game;
 		$counter++ if defined $url_game;
-		print "Fetching URL no. $counter: $url_game\n" if defined $url_game;
+		print "\rFetching URL no. $counter (be patient!)" if defined $url_game;
 	}
 }
 @urls = uniq(@urls);
@@ -64,7 +65,7 @@ print OUT "<corpus>\n";#
 foreach my $url_game (@urls) {
 	my $html = qx(curl -s '$url_game');
 	$counter_game++;
-	print "Get no. $counter_game of $length\n";
+	print "\rGet no. $counter_game of $length";
 	my @lines = split /\n/, $html;
 	foreach my $line (@lines) {
 		if ($line =~ /<title>(.+?)<\/title>/) {
@@ -121,3 +122,4 @@ foreach my $url_game (@urls) {
 }
 print OUT "</corpus>\n";
 close OUT;
+print "\nDone!\n";
