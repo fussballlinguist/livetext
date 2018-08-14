@@ -6,6 +6,7 @@
 
 use strict;
 use warnings;
+$| = 1;
 
 my $url;
 my @urls;
@@ -20,15 +21,13 @@ my $team2;
 my $filename;
 
 my $start_url = "http://www.weltfussball.de/alle_spiele/bundesliga-2017-2018/";
-# --> Define the start page (to find under Region -> Spielplan 
+# --> Define the start page (to find under Liga -> Spielplan) 
 
 if ($start_url =~ /alle_spiele\/(.+?)\//) {
 	$filename = $1;
 }
 my $path = "/define/path/$filename.xml";
 # --> Define path
-
-
 
 ############################
 # no changes below this line
@@ -50,7 +49,7 @@ print OUT "<corpus>\n";
 foreach my $url_game (@urls) {
 	my $html = qx(curl -s -L '$url_game');
 	$counter++;
-	print "Lade Nr. $counter von $length\n";
+	print "\rGetting no. $counter of $length";
 	my @lines = split /\n/, $html;
 	foreach my $line (@lines) {
 		if ($line =~ /<title>(.+?)<\/title>/) {
@@ -109,4 +108,4 @@ foreach my $url_game (@urls) {
 	sleep rand(3);
 }
 print OUT "</corpus>\n";
-close OUT
+close OUT;
