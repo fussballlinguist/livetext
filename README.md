@@ -1,6 +1,6 @@
 # Live Text
 
-This project comes up with some simple Perl scripts to scrape live text commentaries and other data from German football websites and transform them in nice and handy xml files.
+This project comes up with some simple Perl scripts to scrape live text commentaries and other data from German and English football websites and transform them in nice and handy xml files.
 
 ## Getting Started
 
@@ -16,10 +16,10 @@ On Unix systems, the xsl stylesheets can be run from the command line with xsltp
 
 ## Scripts
 
-**weltfussball_livetext.pl**, **kicker_livetext** and **sportal.pl** will download all live text commentaries from one season or tournament.
+**weltfussball_livetext.pl**, **kicker_livetext.pl**, **sportal.pl** (all German) and **sportsmole_livetext.pl** (English) will download all live text commentaries from one season or tournament.
 The output format (one file per season) is compatible to https://github.com/spinfo/Ticker2Chirp, a java package to prepare some data for [AutoChirp](https://autochirp.spinfo.uni-koeln.de/home), a web application for automatized and prescheduled tweets.
 
-**kicker_matchreport** will download all match reports of one season (tested with Bundesliga, other competetions might require some minor changes in the regexes).
+**kicker_matchreport.pl** (German) and **sportsmole_matchreport.pl** (English) will download all match reports of one season (tested with Bundesliga on kicker and Premier League on sportsmole, other competetions might require some minor changes in the regexes).
 
 If you want to use the data with corpus linguistic applications like Corpus Workbench or AntConc, a xsl-transformation that pushes the metadata to xml-attributes, will be necessary. You can use **livetext.xsl** and **matchreport.xsl** for this purpose. 
 
