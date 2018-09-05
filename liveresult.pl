@@ -55,7 +55,7 @@ print OUT "<corpus>\n";
 foreach my $url_game (@urls) {
 	my $html = qx(curl -s '$url_game');
 	$counter_game++;
-	print "\rLade Nr. $counter_game von $length";
+	print "\rGetting no. $counter_game of $length";
 	$html =~ s/<div class="block-forecast">[\w\W]+?<\/html>//;
 	if ($html =~ /itemprop="startDate" content="(.+?)T/) {
 		$date = $1;
