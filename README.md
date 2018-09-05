@@ -1,6 +1,6 @@
 # Live Text
 
-This project comes up with some simple Perl scripts to scrape live text commentaries and other data from German and English football websites and transform them in nice and handy xml files.
+This project comes up with some simple Perl scripts to scrape live text commentaries and other data from German, English and Russian football websites and transform them in nice and handy xml files.
 
 ## Getting Started
 
