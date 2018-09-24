@@ -6,9 +6,9 @@ use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
 
-############################################################################
-# A script to crawl match reports from sportsmole.co.uk as nice and handy xml-files
-############################################################################
+####################################################################################
+# A script to scrape match reports from sportsmole.co.uk as nice and handy xml-files
+####################################################################################
 
 my $url;
 my @urls;
