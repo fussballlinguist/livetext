@@ -49,6 +49,7 @@ my $counter = 0;
 my $length = scalar @urls;
 open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
+print "Hole die URLs…\n";
 
 foreach my $url_game (@urls) {
 	my $html = qx(curl -s '$url_game');	
@@ -129,4 +130,5 @@ foreach my $url_game (@urls) {
 	sleep rand 3;
 }
 print OUT "</corpus>\n";
+print "\nFertig!\n";
 close OUT;
