@@ -38,8 +38,8 @@ my $path = "/define/path/BL1617.xml";
 ############################
 
 unlink($path);
-my $start_html = qx(curl -s '$start_url');
 print "Hole die URLs…\n";
+my $start_html = qx(curl -s '$start_url');
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/<td><a class="link" href="(.+?)">Analyse/) {
