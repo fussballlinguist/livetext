@@ -7,9 +7,10 @@ use utf8;
 use open ':std', ':encoding(utf8)';
 $| = 1;
 
-#############################################################################
-# A script to scrape match reports from kicker.de as nice and handy xml-files
-#############################################################################
+############################################################################
+# A script to crawl match reports from kicker.de as nice and handy xml-files
+# Written by Simon Meier-Vieracker (fussballlinguistik.de
+############################################################################
 
 my $url;
 my @urls;
@@ -23,12 +24,13 @@ my $away_goal;
 my $topline;
 my $head;
 my $teaser;
+my $article;
 my $p;
 
-my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2017-18/-1/0/spieltag.html";
+my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2016-17/-1/0/spieltag.html";
 # --> Define the start page (to find under Liga -> Spieltag/Tabelle -> alle) 
 
-my $path = "/define/path/filename.xml";
+my $path = "/define/path/BL1617.xml";
 # --> Define path and outpute filename
 
 ############################
@@ -37,6 +39,7 @@ my $path = "/define/path/filename.xml";
 
 unlink($path);
 my $start_html = qx(curl -s '$start_url');
+print "Hole die URLs…\n";
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/<td><a class="link" href="(.+?)">Analyse/) {
@@ -49,42 +52,44 @@ my $counter = 0;
 my $length = scalar @urls;
 open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
-print "Hole die URLs…\n";
 
 foreach my $url_game (@urls) {
 	my $html = qx(curl -s '$url_game');	
 
 	$counter++;
-	print "\rLade Nr. $counter von $length";
-	my @lines = split /\n/, $html;
-	foreach my $line (@lines) {
-		if ($line =~ /<title>(.+?)<\/title>/) {
-			$title = $1;
-		}
-	}		
+	print "\rLade Nr. $counter von $length…";
 
-	my @infos = split /<h3 class="thead336">\nSpielinfo/, $html;
-	foreach my $info (@infos) {
-		if ($info =~ /Anstoß:<\/b><\/div>\s+<div class="wert">(.+?) (.+?) Uhr/) {
-			$date = $1;
-			$kickoff = $2;
-		}
+	if ($html =~ /<title>(.+?)<\/title>/) {
+		$title = $1;
+	}
+	if ($html =~ /Anstoß:<\/b><\/div>\s+<div class="wert">(.+?)\.(.+?)\.(.+?) (.+?) Uhr/) {
+		$date = "$3-$2-$1";
+		$kickoff = $4;
 	}		
+	if ($html =~ /<h1><a href=".+?">(.+?)<\/a><\/h1>\s+<\/td>\s+<td class="lttabst"/) {
+		$team1 = $1;
+	}
+	if ($html =~ /<h1><a href=".+?">(.+?)<\/a><\/h1>\s+<\/td>\s+<td class="lttablig/) {
+		$team2 = $1;
+	}
+	if ($html =~ /class="boardH">(\d)<\/div>/) {
+		$home_goal = $1;
+	}
+	if ($html =~ /class="boardA">(\d)<\/div>/) {
+		$away_goal = $1;
+	}
 
-	my @headers = split /<h1>/, $html;
-	foreach my $header (@headers) {
-		if ($header =~ /<a href=".+?">(.+?)<\/a><\/h1>\s+<\/td>\s+<td class="lttabst"/) {
-			$team1 = $1;
-		}
-		if ($header =~ /<a href=".+?">(.+?)<\/a><\/h1>/) {
-			$team2 = $1;
-		}
-		if ($header =~ /class="boardH">(\d)<\/div>/) {
-			$home_goal = $1;
-		}
-		if ($header =~ /class="boardA">(\d)<\/div>/) {
-			$away_goal = $1;
-		}	
+	if ($html =~ /<h2 class="topline">(.+?)<\/h2>/) {
+			$topline = decode_entities($1);
+			$topline =~ s/&/\&amp;/g;
+	}
+	if ($html =~ /h2><h1>(.+?)<\/h1>/) {
+			$head = decode_entities($1);
+			$head =~ s/&/\&amp;/g;
+	}
+	if ($html =~ /<p class="teaser">(.+?)<\/p>/) {
+			$teaser = decode_entities($1);
+			$teaser =~ s/&/\&amp;/g;
 	}
 
 	print OUT "<text>
@@ -94,41 +99,30 @@ foreach my $url_game (@urls) {
 	<team2>$team2</team2>
 	<date>$date</date>
 	<kickoff>$kickoff</kickoff>
-	<result>$home_goal:$away_goal</result>\n";		
+	<result>$home_goal:$away_goal</result>
+	<topline>$topline</topline>
+	<head>$head</head>
+	<teaser>$teaser</teaser>\n";
 
-	my @headlines = split /<div id="ovContent">/, $html;
-	foreach my $headline (@headlines) {
-		if ($headline =~ /<h2 class="topline">(.+?)<\/h2>/) {
-			$topline = $1;
-		}
-		if ($headline =~ /h2><h1>(.+?)<\/h1>/) {
-			$head = $1;
-		}
-		if ($headline =~ /<p class="teaser">(.+?)<\/p>/) {
-			$teaser = $1;
-		}
-	}	
-
-	my @paragraphs = split /<p/, $html;
+	if ($html =~ /<!-- content -->([\w\W]+?)<!--/) {
+		$article = $1;
+	}
+	my @paragraphs = split /<[hp]/, $article;
 	foreach my $paragraph (@paragraphs) {
-		if ($paragraph =~ m/^>(.+?)<\/p>/g) {
-			$p .= "\t<p>" . $1 . "</p>\n";
-			$p =~ s/<a .+?>//g;
-			$p =~ s/<b>//g;
-			$p =~ s/<div .+?>//g;
-			$p =~ s/<\/div>//g;
-			$p =~ s/<\/[ab]>//g;
+		if ($paragraph =~ m/^3?>(.+?)<\/[ph]3?>/g) {
+			$p = $1;
+			$p =~ s/<.+?>//g;
+			$p = decode_entities($p);
+			$p =~ s/&/\&amp;/g;
+			$p = "\t<p>$p</p>\n";
+			print OUT $p if defined $p;
 		}
-	}	
-
-	print OUT "\t<topline>$topline</topline>\n" if defined $topline;
-	print OUT "\t<head>$head</head>\n" if defined $head;
-	print OUT "\t<teaser>$teaser</teaser>\n" if defined $teaser;
-	print OUT $p;
+	}
+	
 	print OUT "</text>\n";
-	undef $p;
 	sleep rand 3;
 }
+
 print OUT "</corpus>\n";
-print "\nFertig!\n";
 close OUT;
+print "\nDone!\n";
