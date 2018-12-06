@@ -5,10 +5,12 @@ use warnings;
 use HTML::Entities;
 use utf8;
 use open ':std', ':encoding(utf8)';
+$| = 1;
 
-##########################################################################
+###########################################################################
 # A script to scrape live texts from sportal.de as nice and handy xml-files
-##########################################################################
+# Written by Simon Meier-Vieracker, www.fussballlinguistik.de
+###########################################################################
 
 my $url_report;
 my @urls;
@@ -27,14 +29,13 @@ my $filename;
 
 my $start_url = "http://www.sportal.de/fussball/bundesliga/spielplan/spielplan-chronologisch-saison-2017-2018/";
 # --> Define the start page (to find under Liga -> Spielplan) 
-# Be sure to set the final slash, otherwise the extraction of
-# the filename won't work!
+# Be sure to set the final slash, otherwise the extraction of the filename won't work!
 
 if ($start_url =~ /spielplan\/(.+?)\//) {
 	$filename = $1;
 }
 
-my $path = "/define/path/$filename.xml";
+my $path = "/path/to/$filename.xml";
 # --> Define path 
 
 ############################
@@ -42,15 +43,15 @@ my $path = "/define/path/$filename.xml";
 ############################
 
 unlink($path);
-my $start_html = qx(curl -s '$start_url');
+my $start_html = qx(curl -s $start_url);
 my @lines = split /\n/, $start_html;
 my $counter = 0;
 foreach my $line (@lines) {
 	if ($line =~ m/<li class="score"><a href="(.+?)"/) {
 		$url_report = "http://www.sportal.de" . $1;
-		my $html_report = qx(curl -s '$url_report');
+		my $html_report = qx(curl -s $url_report);
 		$counter++;
-		print "Fetching URLs: $counter\n";
+		print "\rFetching URLs: $counter";
 		if ($html_report =~ /<a href="(.+?)" title="Live">Live<\/a>/) {
 			$url_game = "http://www.sportal.de" . $1;
 		}
@@ -63,10 +64,10 @@ $length = scalar @urls;
 open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
 foreach my $url_game (@urls) {
-
-	my $html = qx(curl -s '$url_game');
+	no warnings 'uninitialized';
+	my $html = qx(curl -s $url_game);
 	$counter_game++;
-	print "Lade Nr. $counter_game von $length\n";
+	print "\rGetting no. $counter_game of $length";
 
 	if ($html =~ /\/(\d+-\d+-\d+)\.html/) {
 		$date = $1;
@@ -119,3 +120,4 @@ foreach my $url_game (@urls) {
 	print OUT "</text>\n";
 }
 print OUT "</corpus>\n";
+print "\nDone!\n";
