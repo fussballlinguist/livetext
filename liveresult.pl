@@ -16,7 +16,7 @@ $| = 1;
 my $start_url = "https://www.liveresult.ru/football/Russia/Premier-League/2017-2018/results/";
 # --> Define the start page
 
-my $path = "/define/path/premjerliga1718.xml";
+my $path = "/path/to/filename.xml";
 # --> Define path and output filename
 
 ############################
@@ -38,6 +38,7 @@ my $counter_game;
 my $length;
 
 unlink($path);
+print "Getting the URLs…\n;
 my $start_html = qx(curl -s '$start_url');
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
