@@ -2,6 +2,7 @@
 
 ################################################################################
 # A script to scrape live texts from weltfussball.de as nice and handy xml-files
+# Written by Simon Meier-Vieracker www.fussballlinguistik.de
 ################################################################################
 
 use strict;
@@ -26,7 +27,7 @@ my $start_url = "http://www.weltfussball.de/alle_spiele/bundesliga-2017-2018/";
 if ($start_url =~ /alle_spiele\/(.+?)\//) {
 	$filename = $1;
 }
-my $path = "/define/path/$filename.xml";
+my $path = "/path/to/$filename.xml";
 # --> Define path
 
 ############################
@@ -34,7 +35,8 @@ my $path = "/define/path/$filename.xml";
 ############################
 
 unlink($path);
-my $start_html = qx(curl -s -L '$start_url');
+print "Getting the URLs…\n";
+my $start_html = qx(curl -s -L $start_url);
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/(\/spielbericht\/.+?)"/) {
@@ -47,30 +49,25 @@ my $counter = 0;
 open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
 foreach my $url_game (@urls) {
-	my $html = qx(curl -s -L '$url_game');
+	my $html = qx(curl -s -L $url_game);
 	$counter++;
 	print "\rGetting no. $counter of $length";
-	my @lines = split /\n/, $html;
-	foreach my $line (@lines) {
-		if ($line =~ /<title>(.+?)<\/title>/) {
-			$title = $1;
-		}
+	if ($html =~ /<title>(.+?)<\/title>/) {
+		$title = $1;
 	}
-	my @headers = split /table class="standard_tabelle" cellpadding="3" cellspacing="1"/, $html;
-	foreach my $header (@headers) {
-		if ($header =~ /<th align="center" width="35%">[\w\W]+?<th align="center">\s+(.+?)<br\/>(.+?) Uhr\s+<\/th>/) {
-			$date = $1;
-			$kickoff = $2;
-		}
-		if ($header =~ /<div class="resultat">\s+(.+?) \t+<\/div>/) {
-			$result = $1;
-		}
-		if ($header =~ /<tr>\s+<th align="center" width="35%">[\w\W]+?<a href=".+?" title="(.+?)"/) {
-			$team1 = $1;
-		}
-		if ($header =~ /<\/th>\s+<th align="center" width="35%">[\w\W]+?<a href=".+?" title=".+?">(.+?)<\/a>\s+<\/th>/) {
-			$team2 = $1;
-		}
+	if ($html =~ /<th align="center" width="35%">[\w\W]+?<th align="center">\s+(.+?)<br\/>(.+?) Uhr\s+<\/th>/) {
+		$date = $1;
+		$date = clean_date($date);
+		$kickoff = $2;
+	}
+	if ($html =~ /<div class="resultat">\s+(.+?) \t+<\/div>/) {
+		$result = $1;
+	}
+	if ($html =~ /<tr>\s+<th align="center" width="35%">[\w\W]+?<a href=".+?" title="(.+?)"/) {
+		$team1 = $1;
+	}
+	if ($html =~ /<\/th>\s+<th align="center" width="35%">[\w\W]+?<a href=".+?" title=".+?">(.+?)<\/a>\s+<\/th>/) {
+		$team2 = $1;
 	}
 	print OUT "<text>
 	<url>$url_game</url>
@@ -110,3 +107,26 @@ foreach my $url_game (@urls) {
 print OUT "</corpus>\n";
 close OUT;
 print "\nDone!\n";
+
+sub clean_date{
+	my $path = $_[0];
+	if ($path =~ /\ (\d)\. (.+?)$/) {
+		$path = "0$1. $2";
+	}
+	$path =~ s/Januar/01/g;
+	$path =~ s/Februar/02/g;
+	$path =~ s/März/03/g;
+	$path =~ s/April/04/g;
+	$path =~ s/Mai/05/g;
+	$path =~ s/Juni/06/g;
+	$path =~ s/Juli/07/g;
+	$path =~ s/August/08/g;
+	$path =~ s/September/09/g;
+	$path =~ s/Oktober/10/g;
+	$path =~ s/November/11/g;
+	$path =~ s/Dezember/12/g;
+	if ($path =~ /(\d+)\. (\d+) (\d+)/) {
+		$path = "$3-$2-$1";
+	}
+	return($path);
+}
