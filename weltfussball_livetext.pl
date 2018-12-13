@@ -125,6 +125,6 @@ sub clean_date{
 	$path =~ s/Oktober/10/g;
 	$path =~ s/November/11/g;
 	$path =~ s/Dezember/12/g;
-	$path =~ s/\w+, (\d+)\. (\d+) (\d+)/$3-$2-$1/;
+	$path =~ s/(\d+)\. (\d+) (\d+)/$3-$2-$1/;
 	return($path);
 }
