@@ -2,7 +2,7 @@
 
 ################################################################################
 # A script to scrape live texts from weltfussball.de as nice and handy xml-files
-# Written by Simon Meier-Vieracker www.fussballlinguistik.de
+# Written by Simon Meier-Vieracker (www.fussballlinguistik.de)
 ################################################################################
 
 use strict;
