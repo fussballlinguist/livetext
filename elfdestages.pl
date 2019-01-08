@@ -41,7 +41,7 @@ for (@seasons[2..$string]) {
 		my @players = split(/<div style="position/,$html);
 		shift @players;
 		foreach my $player (@players) {
-			if ($player =~ /<img .+? title="(.+?)"/) {
+			if ($player =~ /<a href="\/news\/fussball\/bundesliga\/.+?\/spieler_(.+?)\.html" id="/) {
 				$names{$1}++;
 			}
 			if ($player =~ /<div class="vereinslogo">.+? title="(.+?)"/) {
