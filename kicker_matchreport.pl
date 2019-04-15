@@ -27,7 +27,7 @@ my $teaser;
 my $article;
 my $p;
 
-my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2016-17/-1/0/spieltag.html";
+my $start_url = "https://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2016-17/-1/0/spieltag.html";
 # --> Define the start page (to find under Liga -> Spieltag/Tabelle -> alle) 
 
 my $path = "/define/path/BL1617.xml";
@@ -39,11 +39,11 @@ my $path = "/define/path/BL1617.xml";
 
 unlink($path);
 print "Hole die URLs…\n";
-my $start_html = qx(curl -s '$start_url');
+my $start_html = qx(curl -s $start_url);
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/<td><a class="link" href="(.+?)">Analyse/) {
-		$url = "http://www.kicker.de" . $1;
+		$url = "https://www.kicker.de" . $1;
 		push @urls, $url;
 	}
 }
@@ -54,7 +54,7 @@ open OUT, ">> $path" or die $!;
 print OUT "<corpus>\n";
 
 foreach my $url_game (@urls) {
-	my $html = qx(curl -s '$url_game');	
+	my $html = qx(curl -s $url_game);	
 
 	$counter++;
 	print "\rLade Nr. $counter von $length…";
