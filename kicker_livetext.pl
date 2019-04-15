@@ -24,7 +24,7 @@ my $away_goal;
 my $time;
 my $ticker;
 
-my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2017-18/-1/0/spieltag.html";
+my $start_url = "https://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2017-18/-1/0/spieltag.html";
 # --> Define the start page (to find under Liga -> Spieltag/Tabelle -> alle) 
 
 my $path = "/path/to/filename.xml";
@@ -40,7 +40,7 @@ my $start_html = qx(curl -s $start_url);
 my @lines = split /\n/, $start_html;
 foreach my $line (@lines) {
 	if ($line =~ m/<td><a class="link" href="(.+?)">Analyse/) {
-		$url = "http://www.kicker.de" . $1;
+		$url = "https://www.kicker.de" . $1;
 		$url =~ s/spielanalyse/spielverlauf/;
 		push @urls, $url;
 	}
