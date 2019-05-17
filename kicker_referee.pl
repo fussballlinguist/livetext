@@ -32,17 +32,17 @@ my $article;
 my $referee;
 my $mark;
 my $p;
-my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2017-18/-1/0/spieltag.html";
+my $start_url = "https://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/2017-18/-1/0/spieltag.html";
 for (my $i = 2017; $i > 1995; $i--) {
 	my $j = $i + 1;
 	my $end = substr($j, -2, 2);
-	my $start_url = "http://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/$i-$end/-1/0/spieltag.html";
+	my $start_url = "https://www.kicker.de/news/fussball/bundesliga/spieltag/1-bundesliga/$i-$end/-1/0/spieltag.html";
 	print "\nHole die URLs… von Saison $i-$end\n";
 	my $start_html = qx(curl -s '$start_url');
 	my @lines = split /\n/, $start_html;
 	foreach my $line (@lines) {
 		if ($line =~ m/<td><a class="link" href="(.+?)">Analyse/) {
-			$url = "http://www.kicker.de" . $1;
+			$url = "https://www.kicker.de" . $1;
 			push @urls, $url;
 		}
 	}
